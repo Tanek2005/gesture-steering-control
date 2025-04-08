@@ -1,20 +1,31 @@
-import cv2 as cv
-# import mediapipe as mp
+import cv2
 
-capture = cv.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 
 while True:
-    ret,frame = capture.read()
+    ret, frame = cap.read()
     if not ret:
         break
 
-    # Show the captured frame in a window
-    cv.imshow("Webcam", frame)
+    # Get the frame dimensions
+    height, width = frame.shape[:2]
 
-    # Exit loop if 'q' is pressed
-    if cv.waitKey(1) & 0xFF == ord('q'):
+    # Calculate the center based on frame size
+    center = (width // 2, height // 2)
+
+    radius = 1000
+    color = (0, 255, 255)
+    thickness = 2
+
+    # Draw the circle in the center
+    cv2.circle(frame, center, radius, color, thickness)
+
+    # Show the frame with the circle
+    cv2.imshow("Webcam with Centered Circle", frame)
+
+    # Exit if 'q' is pressed
+    if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release the camera and close the window
-capture.release()
-cv.destroyAllWindows()
+cap.release()
+cv2.destroyAllWindows()
